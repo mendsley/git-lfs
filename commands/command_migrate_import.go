@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"runtime/pprof"
 	"strings"
 
 	"github.com/git-lfs/git-lfs/v3/errors"
@@ -24,6 +25,17 @@ import (
 )
 
 func migrateImportCommand(cmd *cobra.Command, args []string) {
+	f, err := os.Create("cpu.prof")
+	if err != nil {
+		ExitWithError(err)
+	}
+	defer f.Close()
+
+	if err := pprof.StartCPUProfile(f); err != nil {
+		ExitWithError(err)
+	}
+	defer pprof.StopCPUProfile()
+
 	ensureWorkingCopyClean(os.Stdin, os.Stderr)
 
 	l := tasklog.NewLogger(os.Stderr,
