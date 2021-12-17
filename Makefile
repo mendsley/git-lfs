@@ -99,7 +99,7 @@ DARWIN_KEYCHAIN_ID ?= CI.keychain
 
 # SOURCES is a listing of all .go files in this and child directories, excluding
 # that in vendor.
-SOURCES = $(shell find . -type f -name '*.go' | grep -v vendor)
+SOURCES = $(shell /bin/find . -type f -name '*.go' | grep -v vendor)
 
 # MSGFMT is the GNU gettext msgfmt binary.
 MSGFMT ?= msgfmt
