@@ -385,6 +385,11 @@ func (r *Rewriter) rewriteTree(commitOID []byte, treeOID []byte, path string,
 			continue
 		}
 
+		if cached := r.uncacheEntry(entry); cached != nil {
+			entries = append(entries, copyEntryMode(cached, entry.Filemode))
+			continue
+		}
+
 		var oid []byte
 
 		switch entry.Type() {
